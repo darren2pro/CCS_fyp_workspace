@@ -1,0 +1,5 @@
+"./msp430fr59xx_euscia0_uart_01.obj"
+"../lnk_msp430fr5969.cmd"
+-llibmpu_init.a
+-llibmath.a
+-llibc.a
