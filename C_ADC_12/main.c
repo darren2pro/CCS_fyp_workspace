@@ -1,5 +1,18 @@
 #include "main.h"
 
+void setupBlinky(void) {
+	// Set up the LED1 and 2 to output
+	P1DIR |= BIT0; // Set P1.0 to output direction (LED1)
+	P4DIR |= BIT6; // Set P4.6 to output direction (LED2)
+
+	// Turn off LED1 and 2
+	P1OUT &= ~BIT0; // P1.0 turn off (LED1)
+	P4OUT &= ~BIT6; // P4.6 turn off (LED2)
+
+	// Turn on I/O
+	PM5CTL0 &= ~LOCKLPM5;
+}
+
 void InitSharedReferenceModule(void)
 {
 	// Initialize the shared reference module
@@ -33,7 +46,8 @@ void InitADC12BModule(void)
 int main(void)
 {
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
-	
+	setupBlinky();
+	InitSharedReferenceModule();
 
 
 

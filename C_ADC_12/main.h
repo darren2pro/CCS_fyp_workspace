@@ -11,6 +11,6 @@
  
  #include <msp430.h>
 
-
+void setupBlinky(void);
 void InitSharedReferenceModule(void);
 void InitADC12BModule(void);

@@ -86,6 +86,18 @@ int main(void)
 {
   WDTCTL = WDTPW + WDTHOLD;                 // Stop WDT
 
+	P1DIR |= BIT0; // Set P1.0 to output direction (LED1)
+	P4DIR |= BIT6; // Set P4.6 to output direction (LED2)
+
+  // Turn off LED1 and 2
+	P1OUT &= ~BIT0; // P1.0 turn off (LED1)
+	P4OUT &= ~BIT6; // P4.6 turn off (LED2)
+
+	// Turn on I/O
+	PM5CTL0 &= ~LOCKLPM5;
+
+
+
   // Initialize the shared reference module
   // By default, REFMSTR=1 => REFCTL is used to configure the internal reference
   while(REFCTL0 & REFGENBUSY);              // If ref generator busy, WAIT
@@ -94,7 +106,7 @@ int main(void)
   /* Initialize ADC12_A */
   ADC12CTL0 &= ~ADC12ENC;                   // Disable ADC12
   ADC12CTL0 = ADC12SHT0_8 + ADC12ON;        // Set sample time
-  ADC12CTL1 = ADC12SHP;                     // Enable sample timer
+  ADC12CTL1 = ADC12SHP;                     // Enable sample timer. Sample signal source = sampling timer. This program will tell the ADC when to sample, instead of allowing some external signal to dictate that.
   ADC12CTL3 = ADC12TCMAP;                   // Enable internal temperature sensor
   ADC12MCTL0 = ADC12VRSEL_1 + ADC12INCH_30; // ADC input ch A30 => temp sense
   ADC12IER0 = 0x001;                        // ADC_IFG upon conv result-ADCMEMO
@@ -113,12 +125,20 @@ int main(void)
     // Temperature in Celsius. See the Device Descriptor Table section in the
     // System Resets, Interrupts, and Operating Modes, System Control Module
     // chapter in the device user's guide for background information on the
-    // used formula.
+    // used formula. CALADC12_12V_30C is the calibration digital reading we would get when temperature is 30C. CALADC12_12V_85C is for calibration digital reading we would get when temperature
+    // is 85C. We would get the formula from the MSP430FR5xx user guide.
     temperatureDegC = (float)(((long)temp - CALADC12_12V_30C) * (85 - 30)) /
             (CALADC12_12V_85C - CALADC12_12V_30C) + 30.0f;
 
     // Temperature in Fahrenheit Tf = (9/5)*Tc + 32
     temperatureDegF = temperatureDegC * 9.0f / 5.0f + 32.0f;
+
+    // if temperature less than 30, turn on LED2
+    if (temperatureDegC < 30) {
+        P4OUT |= BIT6;
+    } else {
+        P4OUT &= ~BIT6;
+    }
 
     __no_operation();                       // SET BREAKPOINT HERE
   }

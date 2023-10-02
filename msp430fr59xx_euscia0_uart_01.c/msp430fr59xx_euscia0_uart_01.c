@@ -106,29 +106,11 @@ int main(void)
   UCA0CTLW0 &= ~UCSWRST;                    // Initialize eUSCI
   UCA0IE |= UCRXIE;                         // Enable USCI_A0 RX interrupt
 
-  const char message[] = "Darren\n";
-  const unsigned char messageLength = sizeof(message);
-  unsigned char TXbytes = 0;
-  // const char TXdata = 'D';
-
   while(1) {
-      // Continuously transmit bytes
       while(!(UCA0IFG & UCTXIFG));
 
-      // UCA0TXBUF = TXdata;
-
-      UCA0TXBUF = message[TXbytes++];
-
-      if(TXbytes >= messageLength) {
-          TXbytes = 0;
-      }
+      UCA0TXBUF = 'D';
   }
-
-  /*
-   __bis_SR_register(LPM3_bits | GIE);       // Enter LPM3, interrupts enabled
-   __no_operation();                         // For debugger
-
-   */
 
 }
 
