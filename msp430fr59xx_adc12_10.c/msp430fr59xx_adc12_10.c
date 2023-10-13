@@ -84,7 +84,7 @@ volatile float temperatureDegF;
 
 int main(void)
 {
-  WDTCTL = WDTPW + WDTHOLD;                 // Stop WDT
+    WDTCTL = WDTPW + WDTHOLD;                 // Stop WDT
 
 	P1DIR |= BIT0; // Set P1.0 to output direction (LED1)
 	P4DIR |= BIT6; // Set P4.6 to output direction (LED2)
@@ -108,7 +108,7 @@ int main(void)
   ADC12CTL0 = ADC12SHT0_8 + ADC12ON;        // Set sample time
   ADC12CTL1 = ADC12SHP;                     // Enable sample timer. Sample signal source = sampling timer. This program will tell the ADC when to sample, instead of allowing some external signal to dictate that.
   ADC12CTL3 = ADC12TCMAP;                   // Enable internal temperature sensor
-  ADC12MCTL0 = ADC12VRSEL_1 + ADC12INCH_30; // ADC input ch A30 => temp sense
+  ADC12MCTL0 = ADC12VRSEL_1 + ADC12INCH_30; // ADC input channel A30 => temp sense as per the datasheet. Select reference 1 means voltage high is VREF+ and voltage low is AVSS
   ADC12IER0 = 0x001;                        // ADC_IFG upon conv result-ADCMEMO
 
   while(!(REFCTL0 & REFGENRDY));            // Wait for reference generator
