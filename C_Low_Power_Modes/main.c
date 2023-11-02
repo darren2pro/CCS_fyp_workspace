@@ -19,6 +19,16 @@ void terminateGPIOPortA_B(void)
     P4OUT = 0x00;
 }
 
+void configureGPIOForExternalLogicAnalyzer(void) {
+    // Configure GPIO for external logic analyzer P1.5
+
+    // Set the direction of P1.5 to output.
+    P1DIR |= BIT5;
+
+    // Set the output value of P1.5 to high.
+    P1OUT |= BIT5;
+}
+
 void setActiveMode(void)
 {
 	__bic_SR_register(CPUOFF);
@@ -80,12 +90,49 @@ void setLpm4_5(void)
 	__no_operation();
 }
 
+void setFrequencyOfMCLK(int frequency)
+{
+	/*// Open PMM registers for write
+    PMMCTL0_H = PMMPW_H;
+
+    // Set frequency of MCLK
+    switch (frequency)
+    {
+        case 1:
+            PMMCTL2 = SELM__LFXTCLK;
+            break;
+        case 2:
+            PMMCTL2 = SELM__VLOCLK;
+            break;
+        case 3:
+            PMMCTL2 = SELM__DCOCLK;
+            break;
+        case 4:
+            PMMCTL2 = SELM__XT1CLK;
+            break;
+        case 5:
+            PMMCTL2 = SELM__REFOCLK;
+            break;
+        case 6:
+            PMMCTL2 = SELM__DCOCLKDIV;
+            break;
+        case 7:
+            PMMCTL2 = SELM__XT2CLK;
+            break;
+        default:
+            PMMCTL2 = SELM__DCOCLK;
+            break;
+    }
+
+    // Lock PMM registers for write access
+    PMMCTL0_H = 0x00;*/
+}
+
 int main(void)
 {
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
-	PM5CTL0 &= ~LOCKLPM5;
-	terminateGPIOPortA_B();
-	setLpm1();
+	PM5CTL0 &= ~LOCKLPM5;       // Disable the GPIO power-on default high-impedance mode
+    configureGPIOForExternalLogicAnalyzer();
 
 	while (1)
 	{

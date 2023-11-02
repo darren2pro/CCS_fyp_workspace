@@ -3,7 +3,8 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/*",
+                "C:/ti/ccs1240/ccs/ccs_base/msp430/include/*"
             ],
             "defines": [
                 "_DEBUG",
