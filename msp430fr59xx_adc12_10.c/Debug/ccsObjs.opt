@@ -1,5 +1,0 @@
-"./msp430fr59xx_adc12_10.obj"
-"../lnk_msp430fr5969.cmd"
--llibmpu_init.a
--llibmath.a
--llibc.a

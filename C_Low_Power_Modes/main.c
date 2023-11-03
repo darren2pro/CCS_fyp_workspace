@@ -92,7 +92,7 @@ void setLpm4_5(void)
 
 void setFrequencyOfMCLK(int frequency)
 {
-	/*// Open PMM registers for write
+	// Open PMM registers for write
     PMMCTL0_H = PMMPW_H;
 
     // Set frequency of MCLK
@@ -125,7 +125,7 @@ void setFrequencyOfMCLK(int frequency)
     }
 
     // Lock PMM registers for write access
-    PMMCTL0_H = 0x00;*/
+    PMMCTL0_H = 0x00;
 }
 
 int main(void)
