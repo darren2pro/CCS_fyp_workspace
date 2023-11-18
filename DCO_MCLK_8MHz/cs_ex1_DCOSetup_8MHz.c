@@ -45,28 +45,27 @@
 //******************************************************************************
 #include "driverlib.h"
 
-void main(void)
-{
-    //Stop WDT
+void main(void) {
+    // Stop WDT
     WDT_A_hold(WDT_A_BASE);
 
-    //Set DCO Frequency to 8MHz
-    CS_setDCOFreq(CS_DCORSEL_0,CS_DCOFSEL_6);
+    // Set DCO Frequency to 8MHz
+    CS_setDCOFreq(CS_DCORSEL_0, CS_DCOFSEL_6);
 
-    //configure MCLK, SMCLK to be source by DCOCLK
-    CS_initClockSignal(CS_SMCLK,CS_DCOCLK_SELECT,CS_CLOCK_DIVIDER_1);
-    CS_initClockSignal(CS_MCLK,CS_DCOCLK_SELECT,CS_CLOCK_DIVIDER_1);
+    // Configure MCLK, SMCLK to source from DCOCLK
+    CS_initClockSignal(CS_SMCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1);
+    CS_initClockSignal(CS_MCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1);
 
     // output SMCLK
     GPIO_setOutputLowOnPin(
-    	GPIO_PORT_P3,
-    	GPIO_PIN4
+            GPIO_PORT_P3,
+            GPIO_PIN4
     );
 
     GPIO_setAsPeripheralModuleFunctionOutputPin(
-    	GPIO_PORT_P3,
-    	GPIO_PIN4,
-    	GPIO_TERNARY_MODULE_FUNCTION
+            GPIO_PORT_P3,
+            GPIO_PIN4,
+            GPIO_TERNARY_MODULE_FUNCTION
     );
 
     /*
@@ -75,6 +74,5 @@ void main(void)
      */
     PMM_unlockLPM5();
 
-    while(1);
+    while (1);
 }
-

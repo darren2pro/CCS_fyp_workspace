@@ -10,6 +10,9 @@
  
  #include <msp430.h>
 
+/**
+ * Terminate GPIO Port A and B to save power. I do this before entering any of the low power modes.
+ */
 void terminateGPIOPortA_B(void);
 void configureGPIOForExternalLogicAnalyzer(void);
 
@@ -23,7 +26,7 @@ void setLpm4(void);
 void setLpm4_5(void);
 
 /**
- * This is to set the frequency of MCLK. This is the master clock. This is the clock that drives the CPU.
- * @param frequency
+ * Set MCLK to 8MHz. This is the master clock. This is the clock that drives the CPU.
+ * Description: Configure SMCLK = MCLK = 8MHz
  */
-void setFrequencyOfMCLK(int frequency);
+void setMCLK8MHz(void);

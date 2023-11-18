@@ -5,6 +5,7 @@
  * main.c
  *
  * This is to use Interrupt Requests (IRQs), and utilize the interrupt service routines in MSP430.
+ * Basically, we toggle LED2 whenever we press switch 1.
  */
 
 void activateGPIO(void) {

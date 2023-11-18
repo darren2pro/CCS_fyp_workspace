@@ -1,14 +1,12 @@
 #include "main.h"
+#include "driverlib.h"
 
-int i = 1;
-
-void terminateGPIOPortA_B(void)
-{
+void terminateGPIOPortA_B(void) {
     // Port A consists of P1 and P2
-	P1DIR = 0xFF;
-	P1OUT = 0x00;
+    P1DIR = 0xFF;
+    P1OUT = 0x00;
 
-	P2DIR = 0xFF;
+    P2DIR = 0xFF;
     P2OUT = 0x00;
 
     // Port B consists of P3 and P4
@@ -29,116 +27,114 @@ void configureGPIOForExternalLogicAnalyzer(void) {
     P1OUT |= BIT5;
 }
 
-void setActiveMode(void)
-{
-	__bic_SR_register(CPUOFF);
-	__bic_SR_register(SCG0);
-	__bic_SR_register(SCG1);
-	__bic_SR_register(OSCOFF);
-	__no_operation();
+void setActiveMode(void) {
+    __bic_SR_register(CPUOFF);
+    __bic_SR_register(SCG0);
+    __bic_SR_register(SCG1);
+    __bic_SR_register(OSCOFF);
+    __no_operation();
 }
 
-void setLpm0(void)
-{
-	__bis_SR_register(LPM0_bits);
-	__no_operation();
+void setLpm0(void) {
+    __bis_SR_register(LPM0_bits);
+    __no_operation();
 }
 
-void setLpm1(void)
-{
-	__bis_SR_register(LPM1_bits);
-	__no_operation();
+void setLpm1(void) {
+    __bis_SR_register(LPM1_bits);
+    __no_operation();
 }
 
-void setLpm2(void)
-{
-	__bis_SR_register(LPM2_bits);
-	__no_operation();
+void setLpm2(void) {
+    __bis_SR_register(LPM2_bits);
+    __no_operation();
 }
 
-void setLpm3(void)
-{
-	__bis_SR_register(LPM3_bits);
-	__no_operation();
+void setLpm3(void) {
+    __bis_SR_register(LPM3_bits);
+    __no_operation();
 }
 
-void setLpm3_5(void)
-{
-	// Open PMM registers for write
+void setLpm3_5(void) {
+    // Open PMM registers for write
     PMMCTL0_H = PMMPW_H;
 
     // Set PMMREGOFF bit in PMMCTL0_L to turn off regulator
     PMMCTL0_L |= PMMREGOFF;
-	__bis_SR_register(LPM3_bits + GIE);
-	__no_operation();
+    __bis_SR_register(LPM3_bits + GIE);
+    __no_operation();
 }
 
-void setLpm4(void)
-{
-	__bis_SR_register(LPM4_bits);
-	__no_operation();
+void setLpm4(void) {
+    __bis_SR_register(LPM4_bits);
+    __no_operation();
 }
 
-void setLpm4_5(void)
-{
-	// Open PMM registers for write
+void setLpm4_5(void) {
+    // Open PMM registers for write
     PMMCTL0_H = PMMPW_H;
 
     // Set PMMREGOFF bit in PMMCTL0_L to turn off regulator
     PMMCTL0_L |= PMMREGOFF;
-	__bis_SR_register(LPM4_bits + GIE);
-	__no_operation();
+    __bis_SR_register(LPM4_bits + GIE);
+    __no_operation();
 }
 
-void setFrequencyOfMCLK(int frequency)
-{
-	// Open PMM registers for write
-    PMMCTL0_H = PMMPW_H;
+void setMCLK8MHz(void) {
+    /** Set Digitally Controlled Oscillator (DCO) Frequency to 8MHz */
+    CS_setDCOFreq(CS_DCORSEL_0, CS_DCOFSEL_6);
 
-    // Set frequency of MCLK
-    switch (frequency)
-    {
-        case 1:
-            PMMCTL2 = SELM__LFXTCLK;
-            break;
-        case 2:
-            PMMCTL2 = SELM__VLOCLK;
-            break;
-        case 3:
-            PMMCTL2 = SELM__DCOCLK;
-            break;
-        case 4:
-            PMMCTL2 = SELM__XT1CLK;
-            break;
-        case 5:
-            PMMCTL2 = SELM__REFOCLK;
-            break;
-        case 6:
-            PMMCTL2 = SELM__DCOCLKDIV;
-            break;
-        case 7:
-            PMMCTL2 = SELM__XT2CLK;
-            break;
-        default:
-            PMMCTL2 = SELM__DCOCLK;
-            break;
-    }
+    /** Configure MCLK, SMCLK to source from DCOCLK */
+    CS_initClockSignal(CS_SMCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1);
+    CS_initClockSignal(CS_MCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1);
+
+    /**
+     * This part I had to look into the datasheet section titled `Port P3 (P3.4 to P3.7) Pin Functions` to figure out.
+     * This is setting P3.4 to output SMCLK as an analog signal.
+     * Enabling a GPIO pin to output the SMCLK allows flexibility in using this clock signal for external purposes
+     * or interfacing with other devices that need synchronization or clocking based on the MSP430's clock system.
+     * Some possible reasons that we would want to do this:
+     * 1. We want to measure the frequency of SMCLK with an oscilloscope.
+     * 2. We want to use SMCLK to drive an external peripheral.
+     * 3. We want to use SMCLK to drive an external logic analyzer.
+     * 4. We want to use SMCLK to drive an external timer.
+     * 5. We want to use SMCLK to drive an external counter.
+     * 6. We want to use SMCLK to drive an external ADC.
+     * 7. We want to use SMCLK to drive an external DAC.
+     * 8. We want to use SMCLK to drive an external PWM.
+     * 9. We want to use SMCLK to drive an external interrupt.
+     * 10. We want to use SMCLK to drive an external clock.
+     * 11. We want to use SMCLK to drive an external watchdog timer.
+     * 12. We want to use SMCLK to drive an external timer interrupt.
+     * 13. We want to use SMCLK to drive an external counter interrupt.
+     * 14. and many more...
+     */
+    /** set P3.4 as output and to low */
+    GPIO_setOutputLowOnPin(
+            GPIO_PORT_P3,
+            GPIO_PIN4
+    );
+    /** set P3.4 to output SMCLK. Had to refer to the datasheet to learn this */
+    GPIO_setAsPeripheralModuleFunctionOutputPin(
+            GPIO_PORT_P3,
+            GPIO_PIN4,
+            GPIO_TERNARY_MODULE_FUNCTION
+    );
+
+    /* This part is not used, but I keep for reference
+    // Open PMM registers for write
+    PMMCTL0_H = PMMPW_H;
 
     // Lock PMM registers for write access
     PMMCTL0_H = 0x00;
+     */
 }
 
-int main(void)
-{
-	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
-	PM5CTL0 &= ~LOCKLPM5;       // Disable the GPIO power-on default high-impedance mode
-    configureGPIOForExternalLogicAnalyzer();
+int main(void) {
+    WDTCTL = WDTPW | WDTHOLD;    // stop watchdog timer
+    setMCLK8MHz();
+    PM5CTL0 &= ~LOCKLPM5;       // Disable the GPIO power-on default high-impedance mode
 
-	while (1)
-	{
-		i++;
-		i--;
-	}
-	
+    while (1);
     return 0;
 }

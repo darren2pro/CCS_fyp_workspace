@@ -141,4 +141,3 @@ void TIMER1_A0_ISR (void)
         compVal
         );
 }
-
