@@ -1596,7 +1596,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "DCO_MCLK_8MHz/cs_ex1_DCOSetup.c",
+			"path" : "DCO_MCLK_8MHz/cs_ex1_DCOSetup_8MHz.c",
 			"sourceGroupIndex" : 0
 		},
 		{

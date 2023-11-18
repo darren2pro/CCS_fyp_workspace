@@ -55,18 +55,17 @@
 
 uint32_t clockValue;
 
-void main(void)
-{
+void main(void) {
     //Stop WDT
     WDT_A_hold(WDT_A_BASE);
     //Set DCO frequency to 16MHz
     CS_setDCOFreq(CS_DCORSEL_1, CS_DCOFSEL_4);
 
-    CS_initClockSignal(CS_SMCLK,CS_DCOCLK_SELECT,CS_CLOCK_DIVIDER_1);
-    CS_initClockSignal(CS_MCLK,CS_DCOCLK_SELECT,CS_CLOCK_DIVIDER_1);
+    CS_initClockSignal(CS_SMCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1);
+    CS_initClockSignal(CS_MCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1);
 
     //Set wait state to 1
-    FRAMCtl_configureWaitStateControl(FRAMCTL_ACCESS_TIME_CYCLES_1); 
+    FRAMCtl_configureWaitStateControl(FRAMCTL_ACCESS_TIME_CYCLES_1);
 
     //Set P2.0 as Output Low (for setup as ACLK).
     /*
@@ -75,8 +74,8 @@ void main(void)
     * Set Pin 0 to output Low.
     */
     GPIO_setOutputLowOnPin(
-    	GPIO_PORT_P3,
-    	GPIO_PIN4
+            GPIO_PORT_P3,
+            GPIO_PIN4
     );
 
     //Set P2.0 as Ternary Module Function Output.
@@ -86,9 +85,9 @@ void main(void)
     * Set Pin 0 to output Ternary Module Function, (ACLK).
     */
     GPIO_setAsPeripheralModuleFunctionOutputPin(
-    	GPIO_PORT_P3,
-    	GPIO_PIN4,
-    	GPIO_TERNARY_MODULE_FUNCTION
+            GPIO_PORT_P3,
+            GPIO_PIN4,
+            GPIO_TERNARY_MODULE_FUNCTION
     );
 
     /*
@@ -97,8 +96,6 @@ void main(void)
      */
     PMM_unlockLPM5();
 
-    while(1);
+    while (1);
 
 }
-
-

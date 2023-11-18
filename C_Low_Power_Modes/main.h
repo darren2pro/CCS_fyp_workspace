@@ -8,7 +8,7 @@
  *
  ******************************************************************************/
  
- #include <msp430.h>
+#include <msp430.h>
 
 /**
  * Terminate GPIO Port A and B to save power. I do this before entering any of the low power modes.
@@ -27,6 +27,11 @@ void setLpm4_5(void);
 
 /**
  * Set MCLK to 8MHz. This is the master clock. This is the clock that drives the CPU.
- * Description: Configure SMCLK = MCLK = 8MHz
+ * Description: Configure SMCLK = MCLK = xMHz.
+ * The range goes even up to
  */
+void setMCLK1MHz(void);
+void setMCLK4MHz(void);
+void setMCLK7MHz(void);
 void setMCLK8MHz(void);
+void setMCLK16MHz(void);

@@ -80,8 +80,77 @@ void setLpm4_5(void) {
     __no_operation();
 }
 
+void setMCLK1MHz(void) {
+    /** Set Digitally Controlled Oscillator (DCO) Frequency to 1MHz */
+    CS_setDCOFreq(CS_DCORSEL_0, CS_DCOFSEL_0);
+
+    /** Configure MCLK, SMCLK to source from DCOCLK */
+    CS_initClockSignal(CS_SMCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1);
+    CS_initClockSignal(CS_MCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1);
+
+    /** set P3.4 as output and to low */
+    GPIO_setOutputLowOnPin(
+            GPIO_PORT_P3,
+            GPIO_PIN4
+    );
+
+    /** set P3.4 to output SM as an analog signal */
+    GPIO_setAsPeripheralModuleFunctionOutputPin(
+            GPIO_PORT_P3,
+            GPIO_PIN4,
+            GPIO_TERNARY_MODULE_FUNCTION
+    );
+}
+
+void setMCLK4MHz(void) {
+    /** Set Digitally Controlled Oscillator (DCO) Frequency to 4MHz */
+    CS_setDCOFreq(CS_DCORSEL_0, CS_DCOFSEL_3);
+
+    /** Configure MCLK, SMCLK to source from DCOCLK */
+    CS_initClockSignal(CS_SMCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1);
+    CS_initClockSignal(CS_MCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1);
+
+    /** set P3.4 as output and to low */
+    GPIO_setOutputLowOnPin(
+            GPIO_PORT_P3,
+            GPIO_PIN4
+    );
+
+    /** set P3.4 to output SM as an analog signal */
+    GPIO_setAsPeripheralModuleFunctionOutputPin(
+            GPIO_PORT_P3,
+            GPIO_PIN4,
+            GPIO_TERNARY_MODULE_FUNCTION
+    );
+}
+
+void setMCLK7MHz(void) {
+    /** Set Digitally Controlled Oscillator (DCO) Frequency to 7MHz */
+    CS_setDCOFreq(CS_DCORSEL_0, CS_DCOFSEL_5);
+
+    /** Configure MCLK, SMCLK to source from DCOCLK */
+    CS_initClockSignal(CS_SMCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1);
+    CS_initClockSignal(CS_MCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1);
+
+    /** set P3.4 as output and to low */
+    GPIO_setOutputLowOnPin(
+            GPIO_PORT_P3,
+            GPIO_PIN4
+    );
+
+    /** set P3.4 to output SM as an analog signal */
+    GPIO_setAsPeripheralModuleFunctionOutputPin(
+            GPIO_PORT_P3,
+            GPIO_PIN4,
+            GPIO_TERNARY_MODULE_FUNCTION
+    );
+}
+
 void setMCLK8MHz(void) {
-    /** Set Digitally Controlled Oscillator (DCO) Frequency to 8MHz */
+    /**
+     * Set Digitally Controlled Oscillator (DCO) Frequency to 8MHz. This information is derived from the datasheet
+     * section on the DCO (titled `Table 5-6. DCO`). The DCO stands for digitally controlled oscillator.
+     */
     CS_setDCOFreq(CS_DCORSEL_0, CS_DCOFSEL_6);
 
     /** Configure MCLK, SMCLK to source from DCOCLK */
@@ -130,9 +199,49 @@ void setMCLK8MHz(void) {
      */
 }
 
+void setMCLK16MHz(void) {
+    /** Set Digitally Controlled Oscillator (DCO) Frequency to 16MHz */
+    CS_setDCOFreq(CS_DCORSEL_1, CS_DCOFSEL_4);
+
+    /** Configure MCLK, SMCLK to source from DCOCLK */
+    CS_initClockSignal(CS_SMCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1);
+    CS_initClockSignal(CS_MCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1);
+
+    /**
+     * Set wait state form FRAM to 1 because read and write to FRAM takes longer than 1 cycle at frequencies higher
+     * than 8MHz. This information is derived from the datasheet. Hence wait states are needed. This is how wait states
+     * work:
+     *
+     * The CPU will wait for the number of cycles specified by the wait state before executing the next instruction.
+     * "wait states" refer to additional clock cycles inserted to accommodate the timing requirements of certain
+     * operations, particularly when accessing memory.
+     *
+     * When the CPU interacts with memory (like reading or writing data), the time taken for the data to be accessed
+     * might not align perfectly with the CPU's speed. For instance, if the CPU runs at a certain clock frequency but
+     * the memory needs more time to respond to a request due to its inherent speed limitations, wait states are
+     * introduced to synchronize these operations.
+     *
+     * The configure wait state only takes either value 0 or 1.
+     */
+    FRAMCtl_configureWaitStateControl(FRAMCTL_ACCESS_TIME_CYCLES_1);
+
+    /** set P3.4 as output and to low */
+    GPIO_setOutputLowOnPin(
+            GPIO_PORT_P3,
+            GPIO_PIN4
+    );
+
+    /** set P3.4 to output SM as an analog signal */
+    GPIO_setAsPeripheralModuleFunctionOutputPin(
+            GPIO_PORT_P3,
+            GPIO_PIN4,
+            GPIO_TERNARY_MODULE_FUNCTION
+    );
+}
+
 int main(void) {
     WDTCTL = WDTPW | WDTHOLD;    // stop watchdog timer
-    setMCLK8MHz();
+    setMCLK1MHz();
     PM5CTL0 &= ~LOCKLPM5;       // Disable the GPIO power-on default high-impedance mode
 
     while (1);
