@@ -14,6 +14,10 @@
  * Terminate GPIO Port A and B to save power. I do this before entering any of the low power modes.
  */
 void terminateGPIOPortA_B(void);
+
+/**
+ * Set P1.5 to output and pull it to high. This is to track when the MSP430 powers on and powers down
+ */
 void configureGPIOForExternalLogicAnalyzer(void);
 
 void setActiveMode(void);

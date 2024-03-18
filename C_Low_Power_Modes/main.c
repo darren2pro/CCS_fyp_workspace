@@ -241,8 +241,10 @@ void setMCLK16MHz(void) {
 
 int main(void) {
     WDTCTL = WDTPW | WDTHOLD;    // stop watchdog timer
-    setMCLK1MHz();
     PM5CTL0 &= ~LOCKLPM5;       // Disable the GPIO power-on default high-impedance mode
+
+    terminateGPIOPortA_B();
+    configureGPIOForExternalLogicAnalyzer();
 
     while (1);
     return 0;

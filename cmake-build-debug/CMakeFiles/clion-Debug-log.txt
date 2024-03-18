@@ -1,4 +1,63 @@
-C:\Users\User\AppData\Local\Programs\CLion\bin\cmake\win\x64\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=C:/Users/User/AppData/Local/Programs/CLion/bin/ninja/win/x64/ninja.exe -G Ninja -S C:\Users\User\CCS_fyp_workspace -B C:\Users\User\CCS_fyp_workspace\cmake-build-debug
--- Configuring done (0.0s)
--- Generating done (0.0s)
--- Build files have been written to: C:/Users/User/CCS_fyp_workspace/cmake-build-debug
+C:\Users\User\AppData\Local\Programs\CLion\bin\cmake\win\x64\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=C:/Users/User/AppData/Local/Programs/CLion/bin/ninja/win/x64/ninja.exe "-DCMAKE_C_COMPILER=C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/Llvm/bin/clang.exe" "-DCMAKE_CXX_COMPILER=C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/Llvm/bin/clang.exe" -G Ninja -S C:\Users\User\CCS_fyp_workspace -B C:\Users\User\CCS_fyp_workspace\cmake-build-debug
+-- The C compiler identification is Clang 16.0.5 with GNU-like command-line
+-- The CXX compiler identification is Clang 16.0.5 with GNU-like command-line
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - failed
+-- Check for working C compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/Llvm/bin/clang.exe
+-- Check for working C compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/Llvm/bin/clang.exe - broken
+CMake Error at C:/Users/User/AppData/Local/Programs/CLion/bin/cmake/win/x64/share/cmake-3.27/Modules/CMakeTestCCompiler.cmake:67 (message):
+  The C compiler
+
+    "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/Llvm/bin/clang.exe"
+
+  is not able to compile a simple test program.
+
+  It fails with the following output:
+
+    Change Dir: 'C:/Users/User/CCS_fyp_workspace/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-yo6ggy'
+    
+    Run Build Command(s): C:/Users/User/AppData/Local/Programs/CLion/bin/ninja/win/x64/ninja.exe -v cmTC_e10b1
+    [1/2] C:\PROGRA~1\MICROS~1\2022\COMMUN~1\VC\Tools\Llvm\bin\clang.exe   -O0 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -g -Xclang -gcodeview -MD -MT CMakeFiles/cmTC_e10b1.dir/testCCompiler.c.obj -MF CMakeFiles\cmTC_e10b1.dir\testCCompiler.c.obj.d -o CMakeFiles/cmTC_e10b1.dir/testCCompiler.c.obj -c C:/Users/User/CCS_fyp_workspace/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-yo6ggy/testCCompiler.c
+    [2/2] cmd.exe /C "cd . && C:\PROGRA~1\MICROS~1\2022\COMMUN~1\VC\Tools\Llvm\bin\clang.exe -fuse-ld=lld-link -nostartfiles -nostdlib -O0 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -g -Xclang -gcodeview -Xlinker /subsystem:console CMakeFiles/cmTC_e10b1.dir/testCCompiler.c.obj -o cmTC_e10b1.exe -Xlinker /MANIFEST:EMBED -Xlinker /implib:cmTC_e10b1.lib -Xlinker /pdb:cmTC_e10b1.pdb -Xlinker /version:0.0   -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 -loldnames  && cd ."
+    FAILED: cmTC_e10b1.exe 
+    cmd.exe /C "cd . && C:\PROGRA~1\MICROS~1\2022\COMMUN~1\VC\Tools\Llvm\bin\clang.exe -fuse-ld=lld-link -nostartfiles -nostdlib -O0 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -g -Xclang -gcodeview -Xlinker /subsystem:console CMakeFiles/cmTC_e10b1.dir/testCCompiler.c.obj -o cmTC_e10b1.exe -Xlinker /MANIFEST:EMBED -Xlinker /implib:cmTC_e10b1.lib -Xlinker /pdb:cmTC_e10b1.pdb -Xlinker /version:0.0   -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 -loldnames  && cd ."
+    lld-link: error: <root>: undefined symbol: _mainCRTStartup
+    clang: error: linker command failed with exit code 1 (use -v to see invocation)
+    ninja: build stopped: subcommand failed.
+    
+    
+
+  
+
+  CMake will not be able to correctly generate this project.
+Call Stack (most recent call first):
+  CMakeLists.txt:2 (project)
+
+
+-- Configuring incomplete, errors occurred!
+
+Cannot get compiler information:
+	Compiler exited with error code 1: C:\Users\User\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe -xc++ -g -std=gnu++14 -fpch-preprocess -v -dD -E
+	Using built-in specs.
+	COLLECT_GCC=C:\Users\User\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe
+	Target: x86_64-w64-mingw32
+	Configured with: ../gcc-13.1.0/configure --host=x86_64-w64-mingw32 --target=x86_64-w64-mingw32 --build=x86_64-alpine-linux-musl --prefix=/win --enable-checking=release --enable-fully-dynamic-string --enable-languages=c,c++ --with-arch=nocona --with-tune=generic --enable-libatomic --enable-libgomp --enable-libstdcxx-filesystem-ts --enable-libstdcxx-time --enable-seh-exceptions --enable-shared --enable-static --enable-threads=posix --enable-version-specific-runtime-libs --disable-bootstrap --disable-graphite --disable-libada --disable-libstdcxx-pch --disable-libstdcxx-debug --disable-libquadmath --disable-lto --disable-nls --disable-multilib --disable-rpath --disable-symvers --disable-werror --disable-win32-registry --with-gnu-as --with-gnu-ld --with-system-libiconv --with-system-libz --with-gmp=/win/makedepends --with-mpfr=/win/makedepends --with-mpc=/win/makedepends
+	Thread model: posix
+	Supported LTO compression algorithms: zlib
+	gcc version 13.1.0 (GCC) 
+	COLLECT_GCC_OPTIONS='-g' '-std=gnu++14' '-fpch-preprocess' '-v' '-dD' '-E' '-D' '___CIDR_DEFINITIONS_END' '-shared-libgcc' '-mtune=generic' '-march=nocona'
+	 C:/Users/User/AppData/Local/Programs/CLion/bin/mingw/bin/../libexec/gcc/x86_64-w64-mingw32/13.1.0/cc1plus.exe -E -quiet -v -iprefix C:/Users/User/AppData/Local/Programs/CLion/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/ -D_REENTRANT -D ___CIDR_DEFINITIONS_END C:\Users\User\AppData\Local\Temp\compiler-file4435511813012368987 -mtune=generic -march=nocona -std=gnu++14 -fpch-preprocess -g -fworking-directory -dD -dumpbase compiler-file4435511813012368987
+	
+	
+	Compiler exited with error code 1: C:\Users\User\AppData\Local\Programs\CLion\bin\mingw\bin\gcc.exe -xc -g -fpch-preprocess -v -dD -E
+	Using built-in specs.
+	COLLECT_GCC=C:\Users\User\AppData\Local\Programs\CLion\bin\mingw\bin\gcc.exe
+	Target: x86_64-w64-mingw32
+	Configured with: ../gcc-13.1.0/configure --host=x86_64-w64-mingw32 --target=x86_64-w64-mingw32 --build=x86_64-alpine-linux-musl --prefix=/win --enable-checking=release --enable-fully-dynamic-string --enable-languages=c,c++ --with-arch=nocona --with-tune=generic --enable-libatomic --enable-libgomp --enable-libstdcxx-filesystem-ts --enable-libstdcxx-time --enable-seh-exceptions --enable-shared --enable-static --enable-threads=posix --enable-version-specific-runtime-libs --disable-bootstrap --disable-graphite --disable-libada --disable-libstdcxx-pch --disable-libstdcxx-debug --disable-libquadmath --disable-lto --disable-nls --disable-multilib --disable-rpath --disable-symvers --disable-werror --disable-win32-registry --with-gnu-as --with-gnu-ld --with-system-libiconv --with-system-libz --with-gmp=/win/makedepends --with-mpfr=/win/makedepends --with-mpc=/win/makedepends
+	Thread model: posix
+	Supported LTO compression algorithms: zlib
+	gcc version 13.1.0 (GCC) 
+	COLLECT_GCC_OPTIONS='-g' '-fpch-preprocess' '-v' '-dD' '-E' '-D' '___CIDR_DEFINITIONS_END' '-mtune=generic' '-march=nocona'
+	 C:/Users/User/AppData/Local/Programs/CLion/bin/mingw/bin/../libexec/gcc/x86_64-w64-mingw32/13.1.0/cc1.exe -E -quiet -v -iprefix C:/Users/User/AppData/Local/Programs/CLion/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/ -D_REENTRANT -D ___CIDR_DEFINITIONS_END C:\Users\User\AppData\Local\Temp\compiler-file4435511813012368987 -mtune=generic -march=nocona -fpch-preprocess -g -fworking-directory -dD -dumpbase compiler-file4435511813012368987
+	
+	
