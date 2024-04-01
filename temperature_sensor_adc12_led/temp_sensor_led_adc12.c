@@ -1,37 +1,28 @@
-//  MSP430FR59xx Demo - ADC12_B, Sample A10 Temp and Convert to oC and oF
-//
 //  Description: A single sample is made on A10 with internal reference voltage
 //  1.2V. Software manually sets ADC12SC to start sample and conversion and
-//  automatically cleared at EOC. It uses ADC12OSC to convert the sameple.
+//  automatically cleared at EOC. It uses ADC12OSC to convert the sample.
 //  The Mainloop sleeps the MSP430 in LPM4 to save power until ADC conversion
 //  is completed. ADC12_ISR forces exit from LPMx in on exit from interrupt
 //  handler so that the mainloop can execute and calculate oC and oF.
 //  ACLK = n/a, MCLK = SMCLK = default DCO ~ 1.045MHz, ADC12CLK = ADC12OSC
 //
-//  Un-calibrated temperature measured from device to device will vary due to
-//  slope and offset variance from device to device - please see datasheet.
-//  Note: This example uses the TLV calibrated temperature to calculate
-//  the temperature
-// (the TLV CALIBRATED DATA IS STORED IN THE INFORMATION SEGMENT, SEE DEVICE DATASHEET)
-//
-//                MSP430FR5969
-//             -----------------
-//         /|\|              XIN|-
-//          | |                 |
-//          --|RST          XOUT|-
-//            |                 |
-//            |A10              |
-//
-//   William Goh
-//   Texas Instruments Inc.
-//   February 2014
-//   Built with IAR Embedded Workbench Version: 5.60 & Code Composer Studio V5.5
-//******************************************************************************
+
+
+/**
+ * In this project, we operate the temperature sensor on the MSP430FR5969, and use the ADC12_A module to read
+ * the temperature, and convert the reading to oC and oF.
+ * A single sample is made on A10 with internal reference voltage 1.2V.
+ * Software manually sets ADC12SC to start sample and conversion and automatically cleared at EOC.
+ *
+ */
 #include <msp430.h>
 
-#define CALADC12_12V_30C  *((unsigned int *)0x1A1A)   // Temperature Sensor Calibration-30 C
-//See device datasheet for TLV table memory mapping
-#define CALADC12_12V_85C  *((unsigned int *)0x1A1C)   // Temperature Sensor Calibration-85 C
+/**
+ * Referred to device datasheet for TLV Calibrated Data table memory mapping. This allows us to calculate the
+ * temperature in program
+ */
+#define CALADC12_12V_30C  *((unsigned int *)0x1A1A)   // Temperature Sensor Calibration - 30 C
+#define CALADC12_12V_85C  *((unsigned int *)0x1A1C)   // Temperature Sensor Calibration - 85 C
 
 unsigned int temp;
 volatile float temperatureDegC;
@@ -41,26 +32,24 @@ int main(void) {
     WDTCTL = WDTPW + WDTHOLD;                 // Stop WDT
 
     // Initialize the shared reference module
-    // By default, REFMSTR=1 => REFCTL is used to configure the internal reference
     while (REFCTL0 & REFGENBUSY);              // If ref generator busy, WAIT
     REFCTL0 |= REFVSEL_0 + REFON;             // Enable internal 1.2V reference
 
     /* Initialize ADC12_A */
-    ADC12CTL0 &= ~ADC12ENC;                   // Disable ADC12
-    ADC12CTL0 = ADC12SHT0_8 + ADC12ON;        // Set sample time
-    ADC12CTL1 = ADC12SHP;                     // Enable sample timer
+    ADC12CTL0 &= ~ADC12ENC;                   // Disable ADC12_A conversion by clearing the bits
+    ADC12CTL0 = ADC12SHT0_8 + ADC12ON;        // Set sample-and-hold time, turn ADC12_A on
+    ADC12CTL1 = ADC12SHP;                     // Sample Conversion (SAMPCON) signal is sourced from the sampling timer.
     ADC12CTL3 = ADC12TCMAP;                   // Enable internal temperature sensor
     ADC12MCTL0 = ADC12VRSEL_1 + ADC12INCH_30; // ADC input ch A30 => temp sense
-    ADC12IER0 = 0x001;                        // ADC_IFG upon conv result-ADCMEMO
+    ADC12IER0 = 0x001;                        // ADC_IFG upon conv result - ADCMEMO
 
-    while (!(REFCTL0 & REFGENRDY));            // Wait for reference generator
-    // to settle
+    while (!(REFCTL0 & REFGENRDY));            // Wait for reference generator to settle
     ADC12CTL0 |= ADC12ENC;
 
     while (1) {
-        ADC12CTL0 |= ADC12SC;                   // Sampling and conversion start
+        ADC12CTL0 |= ADC12SC;                   // Sampling and conversion start. Can be set together in 1 instruction
 
-        __bis_SR_register(LPM0_bits + GIE);     // LPM4 with interrupts enabled
+        __bis_SR_register(LPM4_bits + GIE);     // LPM4 with interrupts enabled
         __no_operation();
 
         // Temperature in Celsius. See the Device Descriptor Table section in the
@@ -73,21 +62,22 @@ int main(void) {
         // Temperature in Fahrenheit Tf = (9/5)*Tc + 32
         temperatureDegF = temperatureDegC * 9.0f / 5.0f + 32.0f;
 
-        __no_operation();                       // SET BREAKPOINT HERE
+        __no_operation();                       // Set breakpoint here and read the registers
     }
 }
 
-#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
+/**
+ * Put the ISR into the ADC12 ISR vector table.
+ *
+ * Some explanation on the interrupt flag bits.
+ * The ADC12IFGx bits are set when their corresponding ADC12MEMx memory register is loaded with a
+ * conversion result. An interrupt request is generated if the corresponding ADC12IEx bit and the GIE bit are
+ * set. The ADC12OV condition occurs when a conversion result is written to any ADC12MEMx before its
+ * previous conversion result was read. The ADC12TOV condition is generated when another sample-and-conversion is
+ * requested before the current conversion is completed.
+ */
 #pragma vector=ADC12_VECTOR
-__interrupt void ADC12ISR (void)
-#elif defined(__GNUC__)
-
-void __attribute__ ((interrupt(ADC12_VECTOR))) ADC12ISR(void)
-#else
-#error Compiler not supported!
-#endif
-
-{
+__interrupt void ADC12ISR(void) {
     switch (__even_in_range(ADC12IV, ADC12IV_ADC12RDYIFG)) {
         case ADC12IV_NONE:
             break;        // Vector  0:  No interrupt
