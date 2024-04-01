@@ -318,4 +318,6 @@ add_executable(CCS_fyp_workspace
         timer_a_ex2_continousModeOperationWithCCR0Interrupt/driverlib/MSP430FR5xx_6xx/wdt_a.c
         timer_a_ex2_continousModeOperationWithCCR0Interrupt/driverlib/MSP430FR5xx_6xx/wdt_a.h
         timer_a_ex2_continousModeOperationWithCCR0Interrupt/timer_a_ex2_continousModeOperationWithCCR0Interrupt.c
-        DCO_MCLK_8MHz/cs_ex1_DCOSetup_8MHz.c)
+        temperature_sensor_adc12_led/temp_sensor_led_adc12.h
+        temperature_sensor_adc12_led/temp_sensor_led_adc12.c
+)

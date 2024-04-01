@@ -14,13 +14,13 @@ CMake Error at C:/Users/User/AppData/Local/Programs/CLion/bin/cmake/win/x64/shar
 
   It fails with the following output:
 
-    Change Dir: 'C:/Users/User/CCS_fyp_workspace/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-yo6ggy'
+    Change Dir: 'C:/Users/User/CCS_fyp_workspace/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-eimocc'
     
-    Run Build Command(s): C:/Users/User/AppData/Local/Programs/CLion/bin/ninja/win/x64/ninja.exe -v cmTC_e10b1
-    [1/2] C:\PROGRA~1\MICROS~1\2022\COMMUN~1\VC\Tools\Llvm\bin\clang.exe   -O0 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -g -Xclang -gcodeview -MD -MT CMakeFiles/cmTC_e10b1.dir/testCCompiler.c.obj -MF CMakeFiles\cmTC_e10b1.dir\testCCompiler.c.obj.d -o CMakeFiles/cmTC_e10b1.dir/testCCompiler.c.obj -c C:/Users/User/CCS_fyp_workspace/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-yo6ggy/testCCompiler.c
-    [2/2] cmd.exe /C "cd . && C:\PROGRA~1\MICROS~1\2022\COMMUN~1\VC\Tools\Llvm\bin\clang.exe -fuse-ld=lld-link -nostartfiles -nostdlib -O0 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -g -Xclang -gcodeview -Xlinker /subsystem:console CMakeFiles/cmTC_e10b1.dir/testCCompiler.c.obj -o cmTC_e10b1.exe -Xlinker /MANIFEST:EMBED -Xlinker /implib:cmTC_e10b1.lib -Xlinker /pdb:cmTC_e10b1.pdb -Xlinker /version:0.0   -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 -loldnames  && cd ."
-    FAILED: cmTC_e10b1.exe 
-    cmd.exe /C "cd . && C:\PROGRA~1\MICROS~1\2022\COMMUN~1\VC\Tools\Llvm\bin\clang.exe -fuse-ld=lld-link -nostartfiles -nostdlib -O0 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -g -Xclang -gcodeview -Xlinker /subsystem:console CMakeFiles/cmTC_e10b1.dir/testCCompiler.c.obj -o cmTC_e10b1.exe -Xlinker /MANIFEST:EMBED -Xlinker /implib:cmTC_e10b1.lib -Xlinker /pdb:cmTC_e10b1.pdb -Xlinker /version:0.0   -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 -loldnames  && cd ."
+    Run Build Command(s): C:/Users/User/AppData/Local/Programs/CLion/bin/ninja/win/x64/ninja.exe -v cmTC_b8385
+    [1/2] C:\PROGRA~1\MICROS~1\2022\COMMUN~1\VC\Tools\Llvm\bin\clang.exe   -O0 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -g -Xclang -gcodeview -MD -MT CMakeFiles/cmTC_b8385.dir/testCCompiler.c.obj -MF CMakeFiles\cmTC_b8385.dir\testCCompiler.c.obj.d -o CMakeFiles/cmTC_b8385.dir/testCCompiler.c.obj -c C:/Users/User/CCS_fyp_workspace/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-eimocc/testCCompiler.c
+    [2/2] cmd.exe /C "cd . && C:\PROGRA~1\MICROS~1\2022\COMMUN~1\VC\Tools\Llvm\bin\clang.exe -fuse-ld=lld-link -nostartfiles -nostdlib -O0 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -g -Xclang -gcodeview -Xlinker /subsystem:console CMakeFiles/cmTC_b8385.dir/testCCompiler.c.obj -o cmTC_b8385.exe -Xlinker /MANIFEST:EMBED -Xlinker /implib:cmTC_b8385.lib -Xlinker /pdb:cmTC_b8385.pdb -Xlinker /version:0.0   -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 -loldnames  && cd ."
+    FAILED: cmTC_b8385.exe 
+    cmd.exe /C "cd . && C:\PROGRA~1\MICROS~1\2022\COMMUN~1\VC\Tools\Llvm\bin\clang.exe -fuse-ld=lld-link -nostartfiles -nostdlib -O0 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -g -Xclang -gcodeview -Xlinker /subsystem:console CMakeFiles/cmTC_b8385.dir/testCCompiler.c.obj -o cmTC_b8385.exe -Xlinker /MANIFEST:EMBED -Xlinker /implib:cmTC_b8385.lib -Xlinker /pdb:cmTC_b8385.pdb -Xlinker /version:0.0   -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 -loldnames  && cd ."
     lld-link: error: <root>: undefined symbol: _mainCRTStartup
     clang: error: linker command failed with exit code 1 (use -v to see invocation)
     ninja: build stopped: subcommand failed.
@@ -46,7 +46,7 @@ Cannot get compiler information:
 	Supported LTO compression algorithms: zlib
 	gcc version 13.1.0 (GCC) 
 	COLLECT_GCC_OPTIONS='-g' '-std=gnu++14' '-fpch-preprocess' '-v' '-dD' '-E' '-D' '___CIDR_DEFINITIONS_END' '-shared-libgcc' '-mtune=generic' '-march=nocona'
-	 C:/Users/User/AppData/Local/Programs/CLion/bin/mingw/bin/../libexec/gcc/x86_64-w64-mingw32/13.1.0/cc1plus.exe -E -quiet -v -iprefix C:/Users/User/AppData/Local/Programs/CLion/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/ -D_REENTRANT -D ___CIDR_DEFINITIONS_END C:\Users\User\AppData\Local\Temp\compiler-file4435511813012368987 -mtune=generic -march=nocona -std=gnu++14 -fpch-preprocess -g -fworking-directory -dD -dumpbase compiler-file4435511813012368987
+	 C:/Users/User/AppData/Local/Programs/CLion/bin/mingw/bin/../libexec/gcc/x86_64-w64-mingw32/13.1.0/cc1plus.exe -E -quiet -v -iprefix C:/Users/User/AppData/Local/Programs/CLion/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/ -D_REENTRANT -D ___CIDR_DEFINITIONS_END C:\Users\User\AppData\Local\Temp\compiler-file10019179067185074640 -mtune=generic -march=nocona -std=gnu++14 -fpch-preprocess -g -fworking-directory -dD -dumpbase compiler-file10019179067185074640
 	
 	
 	Compiler exited with error code 1: C:\Users\User\AppData\Local\Programs\CLion\bin\mingw\bin\gcc.exe -xc -g -fpch-preprocess -v -dD -E
@@ -58,6 +58,6 @@ Cannot get compiler information:
 	Supported LTO compression algorithms: zlib
 	gcc version 13.1.0 (GCC) 
 	COLLECT_GCC_OPTIONS='-g' '-fpch-preprocess' '-v' '-dD' '-E' '-D' '___CIDR_DEFINITIONS_END' '-mtune=generic' '-march=nocona'
-	 C:/Users/User/AppData/Local/Programs/CLion/bin/mingw/bin/../libexec/gcc/x86_64-w64-mingw32/13.1.0/cc1.exe -E -quiet -v -iprefix C:/Users/User/AppData/Local/Programs/CLion/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/ -D_REENTRANT -D ___CIDR_DEFINITIONS_END C:\Users\User\AppData\Local\Temp\compiler-file4435511813012368987 -mtune=generic -march=nocona -fpch-preprocess -g -fworking-directory -dD -dumpbase compiler-file4435511813012368987
+	 C:/Users/User/AppData/Local/Programs/CLion/bin/mingw/bin/../libexec/gcc/x86_64-w64-mingw32/13.1.0/cc1.exe -E -quiet -v -iprefix C:/Users/User/AppData/Local/Programs/CLion/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/13.1.0/ -D_REENTRANT -D ___CIDR_DEFINITIONS_END C:\Users\User\AppData\Local\Temp\compiler-file10019179067185074640 -mtune=generic -march=nocona -fpch-preprocess -g -fworking-directory -dD -dumpbase compiler-file10019179067185074640
 	
 	
