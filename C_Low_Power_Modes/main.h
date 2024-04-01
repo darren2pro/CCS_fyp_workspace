@@ -39,3 +39,8 @@ void setMCLK4MHz(void);
 void setMCLK7MHz(void);
 void setMCLK8MHz(void);
 void setMCLK16MHz(void);
+
+/**
+* Toggles GPIO pin after a set amount of time
+*/
+void toggleGPIOAfterSetTime(void);

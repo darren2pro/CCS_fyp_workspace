@@ -51,7 +51,9 @@ void setLpm2(void) {
 }
 
 void setLpm3(void) {
-    __bis_SR_register(LPM3_bits);
+    // __bis_SR_register(LPM3_bits | GIE);     // Enter LPM3 mode w/ interrupts enabled
+    // This can be a possible sleep state
+    __bis_SR_register(LPM3_bits | GIE);
     __no_operation();
 }
 
@@ -66,7 +68,7 @@ void setLpm3_5(void) {
 }
 
 void setLpm4(void) {
-    __bis_SR_register(LPM4_bits);
+    __bis_SR_register(LPM4_bits | GIE);
     __no_operation();
 }
 
@@ -239,13 +241,43 @@ void setMCLK16MHz(void) {
     );
 }
 
+void setBitsUponVbatOk(void) {
+    // Set P1.0 to output direction
+    GPIO_setAsOutputPin(
+            GPIO_PORT_P1,
+            GPIO_PIN0
+    );
+    // Lpm4 with general interrupts enabled
+    setLpm4();
+
+}
+
 int main(void) {
     WDTCTL = WDTPW | WDTHOLD;    // stop watchdog timer
     PM5CTL0 &= ~LOCKLPM5;       // Disable the GPIO power-on default high-impedance mode
 
-    terminateGPIOPortA_B();
-    configureGPIOForExternalLogicAnalyzer();
+    __enable_interrupt(); // Enable maskable interrupt requests (global)
+    // Allow interrupts on input to GPIO pins (P1.3), P1.4, P1.5
+    P1IE |= BIT3; // P1.3 interrupt enabled
+    P1IES &= ~BIT3; // P1.3 Lo/Hi edge
+    P1IFG &= ~BIT3; // P1.3 IFG cleared
+
+    // configure LED1: P4.6
+    P4DIR |= BIT6;        // Set P4.6 to output direction
+    P4OUT &= ~BIT6;       // Initialize P4.6 to 0 to make it off
+
 
     while (1);
     return 0;
+}
+
+//--- ISRs ----//
+#pragma vector=PORT1_VECTOR
+
+__interrupt void ISR_Port_1_Bit_3(void) {
+    if (P1IFG & BIT3) {
+        P1IFG &= ~BIT3; // P1.3 IFG cleared
+        P4OUT ^= BIT6; // Toggle P4.6 LED1
+        P4IFG &= ~BIT3; // P4.3 IFG cleared
+    }
 }

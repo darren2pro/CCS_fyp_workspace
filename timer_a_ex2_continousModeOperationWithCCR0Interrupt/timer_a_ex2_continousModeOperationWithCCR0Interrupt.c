@@ -63,16 +63,15 @@
 
 #define COMPARE_VALUE 50000
 
-void main (void)
-{
+void main(void) {
     //Stop WDT
     WDT_A_hold(WDT_A_BASE);
 
     //Set P1.0 to output direction
     GPIO_setAsOutputPin(
-        GPIO_PORT_P1,
-        GPIO_PIN0
-        );
+            GPIO_PORT_P1,
+            GPIO_PIN0
+    );
 
     /*
      * Disable the GPIO power-on default high-impedance mode to activate
@@ -90,9 +89,9 @@ void main (void)
     Timer_A_initContinuousMode(TIMER_A1_BASE, &initContParam);
 
     //Initiaze compare mode
-	Timer_A_clearCaptureCompareInterrupt(TIMER_A1_BASE,
-		TIMER_A_CAPTURECOMPARE_REGISTER_0
-		);
+    Timer_A_clearCaptureCompareInterrupt(TIMER_A1_BASE,
+                                         TIMER_A_CAPTURECOMPARE_REGISTER_0
+    );
 
     Timer_A_initCompareModeParam initCompParam = {0};
     initCompParam.compareRegister = TIMER_A_CAPTURECOMPARE_REGISTER_0;
@@ -101,9 +100,9 @@ void main (void)
     initCompParam.compareValue = COMPARE_VALUE;
     Timer_A_initCompareMode(TIMER_A1_BASE, &initCompParam);
 
-    Timer_A_startCounter( TIMER_A1_BASE,
-    		TIMER_A_CONTINUOUS_MODE
-                );
+    Timer_A_startCounter(TIMER_A1_BASE,
+                         TIMER_A_CONTINUOUS_MODE
+    );
 
     //Enter LPM0, enable interrupts
     __bis_SR_register(LPM0_bits + GIE);
@@ -123,21 +122,21 @@ __interrupt
 #elif defined(__GNUC__)
 __attribute__((interrupt(TIMER1_A0_VECTOR)))
 #endif
-void TIMER1_A0_ISR (void)
-{
+
+void TIMER1_A0_ISR(void) {
     uint16_t compVal = Timer_A_getCaptureCompareCount(TIMER_A1_BASE,
-    		TIMER_A_CAPTURECOMPARE_REGISTER_0)
-    		+ COMPARE_VALUE;
+                                                      TIMER_A_CAPTURECOMPARE_REGISTER_0)
+                       + COMPARE_VALUE;
 
     //Toggle P1.0
     GPIO_toggleOutputOnPin(
-        GPIO_PORT_P1,
-        GPIO_PIN0
-        );
+            GPIO_PORT_P1,
+            GPIO_PIN0
+    );
 
     //Add Offset to CCR0
     Timer_A_setCompareValue(TIMER_A1_BASE,
-        TIMER_A_CAPTURECOMPARE_REGISTER_0,
-        compVal
-        );
+                            TIMER_A_CAPTURECOMPARE_REGISTER_0,
+                            compVal
+    );
 }
